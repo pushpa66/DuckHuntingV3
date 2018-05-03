@@ -62,8 +62,7 @@ public class MainActivity extends Activity {
     pool.play( hitSoundId, 1.0f, 1.0f, 1, 0, 1.0f );
   }
 
-  private class TouchHandler
-          extends GestureDetector.SimpleOnGestureListener {
+  private class TouchHandler extends GestureDetector.SimpleOnGestureListener {
     public boolean onDoubleTapEvent( MotionEvent event ) {
       if ( !game.isBulletFired( ) ) {
         game.fireBullet( );
@@ -83,7 +82,7 @@ public class MainActivity extends Activity {
       return true;
     }
 
-    public void updateCannon( MotionEvent event )  {
+    private void updateCannon( MotionEvent event )  {
       float x = event.getX( ) - game.getCannonCenter( ).x;
       float y = game.getCannonCenter( ).y - event.getY( );
       float angle = ( float ) Math.atan2( y, x );

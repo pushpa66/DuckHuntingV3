@@ -14,22 +14,30 @@ public class GameView extends View {
   private int [ ] TARGETS = { R.drawable.anim_duck0, R.drawable.anim_duck1,
                             R.drawable.anim_duck2, R.drawable.anim_duck1 };
   private Paint paint;
-  private Bitmap [ ] ducks;
-  private int duckFrame;
+  private Bitmap [ ] ducks1;
+  private Bitmap [ ] ducks2;
+  private int duckFrame1;
+  private int duckFrame2;
 
   private Game game;
 
   public GameView( Context context, int width, int height ) {
     super( context );
-    ducks = new Bitmap[TARGETS.length];
-    for( int i = 0; i < ducks.length; i++ )
-      ducks[i] =
-          BitmapFactory.decodeResource( getResources( ), TARGETS[i] );
-    float scale = ( ( float ) width / ( ducks[0].getWidth( ) * 5 ) );
-    Rect duckRect = new Rect( 0, 0, width / 5,
-        ( int ) ( ducks[0].getHeight( ) * scale ) );
-    game = new Game( duckRect, 5, .03f, .2f );
-    game.setDuckSpeed( width * .00003f );
+    ducks1 = new Bitmap[TARGETS.length];
+    ducks2 = new Bitmap[TARGETS.length];
+    for( int i = 0; i < ducks1.length; i++ )
+      ducks1[i] = BitmapFactory.decodeResource( getResources( ), TARGETS[i] );
+    for( int i = 0; i < ducks2.length; i++ )
+      ducks2[i] = BitmapFactory.decodeResource( getResources( ), TARGETS[i] );
+
+    float scale1 = ( ( float ) width / ( ducks1[0].getWidth( ) * 5 ) );
+    Rect duckRect1 = new Rect( 0, 0, width / 5, ( int ) ( ducks1[0].getHeight( ) * scale1 ) );
+    float scale2 = ( ( float ) width / ( ducks2[0].getWidth( ) * 5 ) );
+    Rect duckRect2 = new Rect( 0, 0, width / 5, ( int ) ( ducks2[0].getHeight( ) * scale2 ) );
+
+    game = new Game( duckRect1, duckRect2,.03f,.03f, 5,.2f );
+    game.setDuckSpeed1( width * .00003f );
+    game.setDuckSpeed2( width * .00003f );
     game.setBulletSpeed( width * .0003f );
     game.setDeltaTime( DELTA_TIME );
 
@@ -64,13 +72,20 @@ public class GameView extends View {
               game.getBulletCenter( ).y, game.getBulletRadius( ), paint );
 
     // draw animated duck
-    duckFrame = ( duckFrame + 1 ) % ducks.length;
-    if( game.isDuckShot( ) )
-      canvas.drawBitmap( ducks[0], null,
-              game.getDuckRect( ), paint );
+    duckFrame1 = ( duckFrame1 + 1 ) % ducks1.length;
+    if( game.isDuckShot1( ) )
+      canvas.drawBitmap( ducks1[0], null,
+              game.getDuckRect1( ), paint );
     else
-      canvas.drawBitmap( ducks[duckFrame], null,
-              game.getDuckRect( ), paint );
+      canvas.drawBitmap( ducks1[duckFrame1], null,
+              game.getDuckRect1( ), paint );
+    duckFrame2 = ( duckFrame2 + 1 ) % ducks2.length;
+    if( game.isDuckShot2( ) )
+      canvas.drawBitmap( ducks2[0], null,
+              game.getDuckRect2( ), paint );
+    else
+      canvas.drawBitmap( ducks2[duckFrame2], null,
+              game.getDuckRect2( ), paint );
   }
 
   public Game getGame( ) {

@@ -9,7 +9,8 @@ public class GameTimerTask extends TimerTask {
   public GameTimerTask( GameView view ) {
     gameView = view;
     game = view.getGame( );
-    game.startDuckFromRightTopHalf( );
+    game.startDuckFromRightTopHalf_1( );
+    game.startDuckFromRightTopHalf_2( );
   }
   
   public void run( ) {
@@ -18,11 +19,19 @@ public class GameTimerTask extends TimerTask {
       game.loadBullet( );
     else if( game.isBulletFired( ) )
       game.moveBullet( );
-    if( game.duckOffScreen( ) ) {
-      game.setDuckShot( false );
-      game.startDuckFromRightTopHalf( );
-    } else if( game.duckHit( ) ) {
-      game.setDuckShot( true );
+    if( game.duckOffScreen1( ) || game.duckDown1()) {
+      game.setDuckShot1( false );
+      game.startDuckFromRightTopHalf_1( );
+    } else if( game.duckHit1( ) ) {
+      game.setDuckShot1( true );
+      ( ( MainActivity ) gameView.getContext( ) ).playHitSound( );
+      game.loadBullet( );
+    }
+    if( game.duckOffScreen2( ) || game.duckDown2() ) {
+      game.setDuckShot2( false );
+      game.startDuckFromRightTopHalf_2( );
+    } else if( game.duckHit2( ) ) {
+      game.setDuckShot2( true );
       ( ( MainActivity ) gameView.getContext( ) ).playHitSound( );
       game.loadBullet( );
     }
